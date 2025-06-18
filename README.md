@@ -271,6 +271,14 @@ whole nested data structure. No need to derive intermediate codecs for inner nes
 going to parse/serialize them from/to JSON in isolation (not as a part of `User`) and use the default or the same 
 derivation configuration for their codecs.
 
+With Scala 3 it's even simpler. Use can use new `derives` syntax:
+
+```scala 3
+case class Device(id: Int, model: String) derives ConfiguredJsonValueCodec
+```
+
+BEWARE: Using of this class requires _runtime_ scope for the `jsoniter-scala-macros` dependency.
+
 Now use it for parsing and serialization from/to `String`:
 ```scala
 val user = readFromString[User]("""{"name":"John","devices":[{"id":1,"model":"HTC One X"}]}""")
